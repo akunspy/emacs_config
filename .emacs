@@ -1,12 +1,11 @@
 (require 'cc-mode)
 (add-to-list 'load-path "~/.emacs.d/")
-(add-to-list 'load-path "~/.emacs.d/cscope/")
 
 (setq default-directory "~/")
 
 (require 'protobuf-mode)
 (require 'go-mode-load)   
-(require 'csharp-mode)
+;;(require 'csharp-mode)
 (require 'buff-menu+)
 
 (setq auto-mode-alist (cons '("\\.h$" . c++-mode) auto-mode-alist))
@@ -156,6 +155,11 @@
 (recentf-mode 1)
 (global-set-key "\M-]" 'recentf-open-files)
 (global-set-key "\M-[" 'recentf-edit-list)
+
+;;js mode
+(require 'js2-mode)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
 
 ;;编译成功后,子窗口自动隐藏
 (setq compilation-finish-functions
