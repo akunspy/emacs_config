@@ -15,8 +15,8 @@
 ;;lua mode
 (setq auto-mode-alist (cons '("\\.lua$" . lua-mode) auto-mode-alist))
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-(require 'highlight-symbol)
 
+(require 'highlight-symbol)
 
 ;; .emacs
 ;;emacs auto setup
@@ -122,6 +122,15 @@
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 
+(defun my-compile-sdk()
+  (interactive)
+  (compile "cd ~/project/CProxy/jni/; make sdk OUT_PATH=~/project/game_sdk")
+)
+
+(defun my-compile-server()
+  (interactive)
+  (compile "cd ~/project/CProxy/server/; make")
+)
 
 ;;快捷键
 (global-set-key [f1] 'kill-buffer)
@@ -130,7 +139,8 @@
 (global-set-key [f4] 'replace-string)
 (global-set-key [f5] 'query-replace)
 (global-set-key [f9] 'compile)
-(global-set-key [f12] 'eshell)
+(global-set-key [f8] 'my-compile-sdk)
+(global-set-key [f10] 'my-compile-server)
 
 (global-set-key "\M-q" 'dired)
 (global-set-key "\M-g" 'goto-line)
@@ -139,10 +149,18 @@
 (global-set-key "\M-o" 'buffer-menu)
 
 
+;;最新打开文件
+(require 'recentf)
+(setq recentf-max-saved-items 100)
+(add-to-list 'recentf-keep 'file-remote-p)
+(recentf-mode 1)
+(global-set-key "\M-]" 'recentf-open-files)
+(global-set-key "\M-[" 'recentf-edit-list)
+
 ;;编译成功后,子窗口自动隐藏
 (setq compilation-finish-functions
       (lambda (buf str)
         (when (and (string= (buffer-name buf) "*compilation*")
                    (not (string-match "exited abnormally" str)))
-          (run-at-time 1.1 nil 'delete-windows-on buf)
+          (run-at-time 2.0 nil 'delete-windows-on buf)
           )))
